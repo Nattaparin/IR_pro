@@ -1,12 +1,16 @@
 import string
+
+import pandas as pd
 from spellchecker import SpellChecker
 from flask import Flask, request, make_response, jsonify
 from sqlalchemy_utils.functions import database_exists, create_database
-from controller.AnimeSearch import query_scoring, get_ani_list, list_bookmark
+from controller.AnimeSearch import query_scoring, get_ani_list, anime, title, synopsis
 from controller.userController import UserController
 from model.bookmark import BookmarkSchema, Bookmark
 from model.database import db
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
+
+from src.LTR import make_user_feature, predict
 
 app = Flask(__name__)
 CORS(app, resources={r'/*': {'origins': '*'}})
@@ -24,7 +28,7 @@ bookmark_schema = BookmarkSchema()
 bookmarks_schema = BookmarkSchema(many=True)
 
 spell = SpellChecker()
-spell.word_frequency.load_text('C:/Users/ASUS TUF FA506/OneDrive/เดสก์ท็อป/IR/project/resources/spelling_check.pkll')
+spell.word_frequency.load_text('C:/Users/ASUS TUF FA506/myProject-IR-backend5011/resources/spelling_check.pkl')
 
 
 def check_spell(query):
@@ -59,6 +63,7 @@ def get_all_anime():
 
 
 @app.route('/addBookmark', methods=['POST'])
+@cross_origin()
 def add_bookmark():
     uid = request.get_json()['uid']
     ani_id = request.get_json()['mal_id']
@@ -78,21 +83,47 @@ def remove_bookmark():
     # print(bmD)
     # res = db.session.execute(db.select(Bookmark)).filter_by(uid=uid, ani_id=ani_id).first()
     res = db.session.query(Bookmark).filter_by(uid=uid, ani_id=ani_id).first()
-    print(res)
+    # print(res)
     db.session.delete(res)
     db.session.commit()
-    return jsonify("delete"), 200
+    return jsonify('delete'), 200
 
 
 @app.route('/Bookmark', methods=['GET'])
 def get_bookmark():
     uid = request.get_json()['uid']
+    res = []
     all_book = db.session.query(Bookmark).filter_by(uid=uid).all()
-    user = Bookmark.serialize_list(all_book)
-    result = list_bookmark(user)
-    # all_bookmarks = Bookmark.query.all()
-    # results = bookmarks_schema.dump(all_bookmarks)
-    return jsonify({'result': result}), 200
+    all_book = Bookmark.serialize_list(all_book)
+    for i in all_book:
+        temp = anime[anime['mal_id'] == i['ani_id']].to_dict('records')[0]
+        res.append(temp)
+    res.sort(key=lambda i: i['score'], reverse=True)
+    return jsonify({'result': res}), 200
+
+
+# @app.route('/suggestion', methods=['POST'])
+# def suggestion():
+#     uid = request.get_json()['uid']
+#     # prepare to compare
+#     book_ser = db.session.query(Bookmark).filter_by(uid=uid).all()
+#     book_ser = Bookmark.serialize_list(book_ser)
+#     book_df = pd.DataFrame(book_ser)
+#     book_df = book_df.drop(columns='id')
+#     print(book_df)
+#     print(book_df['uid'])
+#     user_df = pd.DataFrame(book_df)
+#     print(user_df)
+#     user_df = make_user_feature(user_df)
+#     print(user_df)
+#     res = predict(user_df, 10, anime, book_df)
+#     # print(res)
+#     # user_df = book_ser.copy().loc[]
+#     # for i in book_ser:
+#     #     temp = anime[anime['mal_id'] == i['ani_id']].to_dict('records')[0]
+#     #
+#     # df = pd.DataFrame()
+#     return jsonify({'result': res}), 200
 
 
 @app.route('/animeDetails/<id>?', methods=['GET'])
