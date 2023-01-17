@@ -3,9 +3,9 @@ import pickle
 from src.LTR import predict, make_user_feature
 import pandas as pd
 
-anime = pickle.load(open('C:/Users/ASUS TUF FA506/myProject-IR-backend5011/resources/anime_data.pkl', 'rb'))
-title = pickle.load(open('C:/Users/ASUS TUF FA506/myProject-IR-backend5011/resources/ani_title.pkl', 'rb'))
-synopsis = pickle.load(open('C:/Users/ASUS TUF FA506/myProject-IR-backend5011/resources/ani_synopsis.pkl', 'rb'))
+anime = pickle.load(open('C:/Users/ASUS TUF FA506/OneDrive/เดสก์ท็อป/IR\IR_pro/resources/anime_data.pkl', 'rb'))
+title = pickle.load(open('C:/Users/ASUS TUF FA506/OneDrive/เดสก์ท็อป/IR\IR_pro/resources/ani_title.pkl', 'rb'))
+synopsis = pickle.load(open('C:/Users/ASUS TUF FA506/OneDrive/เดสก์ท็อป/IR\IR_pro/resources/ani_synopsis.pkl', 'rb'))
 
 
 def query_scoring(query):

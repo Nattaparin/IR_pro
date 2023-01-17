@@ -28,7 +28,7 @@ bookmark_schema = BookmarkSchema()
 bookmarks_schema = BookmarkSchema(many=True)
 
 spell = SpellChecker()
-spell.word_frequency.load_text('C:/Users/ASUS TUF FA506/myProject-IR-backend5011/resources/spelling_check.pkl')
+spell.word_frequency.load_text('C:/Users/ASUS TUF FA506/OneDrive/เดสก์ท็อป/IR\IR_pro/resources/spelling_check.pkl')
 
 
 def check_spell(query):
