@@ -57,7 +57,7 @@
       <recent name="D:\3rd-2nd\IR-project\myProject-IR-backend\resources" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.readFiles">
+  <component name="RunManager" selected="Python.main">
     <configuration name="AnimeSearch" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="myProject-IR-backend" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -128,9 +128,6 @@
       <module name="myProject-IR-backend" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -198,6 +195,7 @@
       <workItem from="1673529942105" duration="1045000" />
       <workItem from="1673691316520" duration="13435000" />
       <workItem from="1673784933119" duration="201000" />
+      <workItem from="1673949091827" duration="54000" />
     </task>
     <task id="LOCAL-00001" summary="add .gitignore">
       <created>1673198601834</created>
